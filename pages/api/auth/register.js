@@ -1,4 +1,4 @@
-import db from '../../../lib/db';
+import db from '../../../lib/db.js';
 import bcrypt from 'bcryptjs';
 
 export default async function handler(req, res) {
@@ -13,6 +13,7 @@ export default async function handler(req, res) {
         if (error.code === 'ER_DUP_ENTRY') {
             res.status(400).json({ error: 'Oops! It looks like that email is already in use. Try a different email, or log in if you already have an account.' });
         } else {
+            console.error('Error creating user:', error);
             res.status(500).json({ error: 'Something went wrong while creating your account. Please try again later.' });
         }
     }

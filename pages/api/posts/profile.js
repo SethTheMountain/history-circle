@@ -1,4 +1,4 @@
-import db from '../../../lib/db';
+import db from '../../../lib/db.js';
 import jwt from 'jsonwebtoken';
 
 const authenticate = (req) => {
@@ -21,6 +21,7 @@ export default async function handler(req, res) {
             res.status(405).end();
         }
     } catch (error) {
+        console.error('Error processing profile request:', error);
         res.status(401).json({ error: error.message || 'Error processing request' });
     }
 }

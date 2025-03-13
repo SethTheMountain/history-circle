@@ -1,0 +1,8 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+      "@typescript-eslint/no-require-imports": "error", // Re-enable since we're using ESM
+      "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }], // Allow unused vars with underscore prefix
+      "no-undef": "off" // Disable for Vercel environment variables
+  }
+}

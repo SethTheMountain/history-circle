@@ -1,4 +1,4 @@
-import db from '../../../lib/db';
+import db from '../../../lib/db.js';
 import jwt from 'jsonwebtoken';
 
 const authenticate = (req) => {
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
                                 content: row.reply_content,
                                 created_at: row.reply_created_at,
                                 username: row.reply_username,
-                                user_id: row.reply_user_id // Ensure this is included
+                                user_id: row.reply_user_id
                             }]
                             : [],
                     });
@@ -46,7 +46,7 @@ export default async function handler(req, res) {
                         content: row.reply_content,
                         created_at: row.reply_created_at,
                         username: row.reply_username,
-                        user_id: row.reply_user_id // Ensure this is included
+                        user_id: row.reply_user_id
                     });
                 }
                 return acc;
@@ -54,6 +54,7 @@ export default async function handler(req, res) {
 
             res.status(200).json(postsWithReplies);
         } catch (error) {
+            console.error('Error fetching posts:', error);
             res.status(500).json({ error: 'Error fetching posts' });
         }
     } else if (req.method === 'POST') {
@@ -68,6 +69,7 @@ export default async function handler(req, res) {
                 res.status(201).json({ message: 'Post created' });
             }
         } catch (error) {
+            console.error('Error creating post or reply:', error);
             res.status(401).json({ error: error.message || 'Error creating post or reply' });
         }
     } else if (req.method === 'DELETE') {
@@ -81,6 +83,7 @@ export default async function handler(req, res) {
             await db.query('DELETE FROM posts WHERE id = ?', [postId]);
             res.status(200).json({ message: 'Post deleted' });
         } catch (error) {
+            console.error('Error deleting post:', error);
             res.status(500).json({ error: error.message || 'Error deleting post' });
         }
     } else {

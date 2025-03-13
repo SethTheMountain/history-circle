@@ -1,4 +1,4 @@
-import db from '../../../lib/db';
+import db from '../../../lib/db.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -15,6 +15,7 @@ export default async function handler(req, res) {
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.status(200).json({ token });
     } catch (error) {
+        console.error('Login error:', error);
         res.status(500).json({ error: 'Error logging in' });
     }
 }
